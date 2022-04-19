@@ -40,7 +40,7 @@ titanic_test <- testing(titanic_split)
 
 ```
 
-It is a good idea to use stratified samplying because our number of observations are somewhat low for the testing and training data, with 623 observations in the training set and 268 observations in the testing set. Without stratifying on survival, we could end up with a testing group with majority survivors or majority nonsurvivors. Thus, when creating a model to fit this data, the model will not work well when introduced to new data. Therefore, we want to get a distribution of survivors to non that is consistent with the whole data set.
+It is a good idea to use stratified sampling because our number of observations are somewhat low for the testing and training data, with 623 observations in the training set and 268 observations in the testing set. Without stratifying on survival, we could end up with a testing group with majority survivors or majority non survivors. Thus, when creating a model to fit this data, the model will not work well when introduced to new data. Therefore, we want to get a distribution of survivors to non that is consistent with the whole data set. Some potential issues within the training set it that there is missing data in ages and cabin for many observations.
 
 ## QUESTION 2
 
@@ -49,7 +49,7 @@ titanic_train %>% ggplot(aes(x = survived)) + geom_bar()
 
 ```
 
-Within the training set, there was a larger number of people that died on the titanic than those that survived. This is to be expected because there was only enough lifeboats to save women and children first from richer families. Some potential isses within the training set it that there is missing data for ages and cabin for many observations.
+Within the training set, there was a larger number of people that died on the titanic than those that survived. This is to be expected because there was only enough lifeboats to save women and children mainly from richer families.
 
 ## QUESTION 3
 
@@ -180,9 +180,6 @@ results %>%
   arrange(-accuracies)
 ```
 
-```{}
-```
-
 The logistic regression model achieved the highest accuracy on the training data, with a accuracy of 0.812.
 
 ## QUESTION 10
@@ -213,9 +210,11 @@ augment(log_fit, new_data = titanic_test) %>%
   autoplot()
 ```
 
+From the confusion matrix we can observe that there was a much larger number of predictions that were the same as the real values than there were predictions that were not the same. We had about a 70% accuracy for the yes predictions and about an 88% accuracy for the no predictions.
+
 ```{r echo = FALSE}
 augment(log_fit, new_data = titanic_test) %>%
   roc_auc(survived, .pred_Yes)
 ```
 
-Overall, the model performed well. The testing and training accuracy were almost the same, which is to be expected because we stratified the data to get even distributions of those who survived and those who didn't. Thus, the model should perform similarly on both sets of data.
+Overall, the model performed well. The testing and training accuracy were almost the same, which is to be expected because we stratified the data to get even distributions of those who survived and those who didn't. Thus, the model should perform similarly on both sets of data. From the AUC value we can also observe that the model did will, with a 85% change that the model will distinguish between a yes and no class.
